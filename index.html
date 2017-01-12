@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="jquery.nSwipeSlider.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery.nSwipeSlider.css" />
+	<style>
+		body{background:#ccc;margin:0;padding:0;}
+		#pageWrap{background:#fff;width:600px;padding:0 50px;margin:0 auto;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;}
+		
+		@media only screen and (min-width : 320px) and (max-width : 480px) {
+			#pageWrap{width:98%;padding:0 10px;}
+			.slider, .slider img{width:100%;}
+		}
+	</style>
+	<script>
+	// Example doc readys:
+	$(function(){
+		if (typeof console === "undefined" || typeof console.log === "undefined") {
+		    console = {};
+		    console.log = function() {};
+		}
+		// start first slider with wrap around (default)
+		$('#slider1').nSwipeSlider();
+		// start second slider, without wrap around
+		$('#slider2').nSwipeSlider({wrapAround:false});
+		// example events that can be bound:
+		$('#slider1').on('nSwipeSlider.swipeStart',function(e,jQueryDOMObject,i){ // nSwipeSlider.swipeStart happens when starting to drag the layer
+			console.log('apparently someone started a swipe on object',jQueryDOMObject,'which has index:',i);
+		});
+		$('#slider1').on('nSwipeSlider.swipeDone',function(e,jQueryDOMObject,i){ // nSwipeSlider.swipeDone happens when slide is finished animating
+			console.log('Swipe done! New active:',jQueryDOMObject,'which has index:',i);
+		});
+		/*
+			These two events can be used to make navigational bullets highlight etc, or switching links or what not.
+			The active layer always have class="active" so it's easy to find. It is also this that handles the css3 transition animation.
+		*/
+		
+		// and how to link links to swipe actions;
+		$('a').eq(0).on('click',function(e){
+			e.preventDefault();
+			$('#slider1').find('.active').trigger('swiperight');
+		});
+		$('a').eq(1).on('click',function(e){
+			e.preventDefault();
+			$('#slider1').find('.active').trigger('swipeleft');
+		});
+		$('a').eq(2).on('click',function(e){
+			e.preventDefault();
+			$('#slider1').find('> div').eq(2).trigger('slideTo');
+		});
+	});
+	</script>
+</head>
+<body>
+<div id="pageWrap">
+	<p>Wrap around slider:</p>
+	<div class="nSwipeSlider" id="slider1">
+		<div class="active"><img src="http://lorempixel.com/500/200/food/1/"></div>
+		<div><img src="http://lorempixel.com/500/200/food/2/"></div>
+		<div><img src="http://lorempixel.com/500/200/food/3/"></div>
+		<div><img src="http://lorempixel.com/500/200/food/4/"></div>
+		<div><img src="http://lorempixel.com/500/200/food/5/"></div>
+		<div><img src="http://lorempixel.com/500/200/food/6/"></div>
+	</div>
+	Examples of triggers:<br>
+	<a href="#">go left!</a> - <a href="#">go right!</a> - <a href="#">go to second!</a>
+	<p>Non-wrap slider:</p>
+	<div class="nSwipeSlider" id="slider2">
+		<div class="active"><img src="http://lorempixel.com/500/200/technics/1/"></div>
+		<div><img src="http://lorempixel.com/500/200/technics/2/"></div>
+		<div><img src="http://lorempixel.com/500/200/technics/3/"></div>
+		<div><img src="http://lorempixel.com/500/200/technics/4/"></div>
+		<div><img src="http://lorempixel.com/500/200/technics/5/"></div>
+		<div><img src="http://lorempixel.com/500/200/technics/6/"></div>
+	</div>
+	<p>oh, and you can open up your console to see examples of events.</p>
+</div>
+</body>
+</html>
